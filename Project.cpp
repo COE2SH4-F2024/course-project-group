@@ -56,28 +56,11 @@ void RunLogic(void)
     char input;
     input = mechanics_ptr->getInput();
 
-    if(input != 0)  // if not null character
-    {
-        switch(input)
-        {                      
-            case ' ':  // exit
-                mechanics_ptr->setExitTrue();
-                break;
-            case 'w':
-                //
-                break;
-            case 's':
-                //k;
-            case 'd':
-                //
-                break;
-            case 'a':
-                //
-                break;
-
-            default:
-                break;
-        }
+    switch(input)
+    {                      
+        case ' ':  // exit
+            mechanics_ptr->setExitTrue();
+            break;
     }
     //PROCESS INPUT
     mechanics_ptr->clearInput();
