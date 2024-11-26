@@ -7,7 +7,8 @@ using namespace std;
 
 #define DELAY_CONST 100000
 
-GameMechs mechanics = GameMechs();
+GameMechs *mechanics_ptr;
+
 
 void Initialize(void);
 void GetInput(void);
@@ -16,13 +17,11 @@ void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
 
-
-
 int main(void)
 {   
     Initialize();
     
-    while(mechanics.getExitFlagStatus() == false)  
+    while(mechanics_ptr->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -39,7 +38,7 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-
+    mechanics_ptr = new GameMechs();
 
 
 }
@@ -47,7 +46,7 @@ void Initialize(void)
 void GetInput(void)
 {
    if (MacUILib_hasChar()) {
-        mechanics.setInput(MacUILib_getChar());
+        mechanics_ptr->setInput(MacUILib_getChar());
 
     }   
 }
@@ -55,14 +54,14 @@ void GetInput(void)
 void RunLogic(void)
 {
     char input;
-    input = mechanics.getInput();
+    input = mechanics_ptr->getInput();
 
     if(input != 0)  // if not null character
     {
         switch(input)
         {                      
             case ' ':  // exit
-                mechanics.setExitTrue();
+                mechanics_ptr->setExitTrue();
                 break;
             case 'w':
                 //
@@ -81,7 +80,7 @@ void RunLogic(void)
         }
     }
     //PROCESS INPUT
-    mechanics.clearInput();
+    mechanics_ptr->clearInput();
 }
 
 void DrawScreen(void)
