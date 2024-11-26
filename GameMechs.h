@@ -17,6 +17,7 @@ class GameMechs
         bool loseFlag;
         int score;
 
+        int **board;
         int boardSizeX;
         int boardSizeY;
 

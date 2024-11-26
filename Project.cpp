@@ -1,12 +1,13 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "GameMechs.h"
 
 using namespace std;
 
 #define DELAY_CONST 100000
 
-bool exitFlag;
+GameMechs mechanics = GameMechs();
 
 void Initialize(void);
 void GetInput(void);
@@ -18,11 +19,10 @@ void CleanUp(void);
 
 
 int main(void)
-{
-
+{   
     Initialize();
-
-    while(exitFlag == false)  
+    
+    while(mechanics.getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -40,17 +40,48 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    exitFlag = false;
+
+
 }
 
 void GetInput(void)
 {
-   
+   if (MacUILib_hasChar()) {
+        mechanics.setInput(MacUILib_getChar());
+
+    }   
 }
 
 void RunLogic(void)
 {
-    
+    char input;
+    input = mechanics.getInput();
+
+    if(input != 0)  // if not null character
+    {
+        switch(input)
+        {                      
+            case ' ':  // exit
+                mechanics.setExitTrue();
+                break;
+            case 'w':
+                //
+                break;
+            case 's':
+                //k;
+            case 'd':
+                //
+                break;
+            case 'a':
+                //
+                break;
+
+            default:
+                break;
+        }
+    }
+    //PROCESS INPUT
+    mechanics.clearInput();
 }
 
 void DrawScreen(void)
@@ -70,4 +101,5 @@ void CleanUp(void)
     MacUILib_clearScreen();    
 
     MacUILib_uninit();
+
 }
