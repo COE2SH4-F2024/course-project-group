@@ -1,4 +1,5 @@
 #include "GameMechs.h"
+#include "MacUILib.h"
 
 GameMechs::GameMechs()
 {
@@ -125,3 +126,27 @@ void GameMechs::clearInput()
 }
 
 // More methods should be added here
+
+void GameMechs::displaychar(int x, int y, char sym) {
+
+    board[x][y] = sym;
+}
+
+void GameMechs::printBoard() {
+    int i,j;
+
+    for(i=0; i < boardSizeY; i++) {
+        for(j=0; j<boardSizeX; j++) {
+            MacUILib_printf("%c",board[j][i]);
+        }
+        MacUILib_printf("\n");
+    } 
+}
+
+void GameMechs::clearBoard() {
+    int i,j;
+    for(i=1; i < boardSizeY-1; i++) 
+        for(j=1; j<boardSizeX-1; j++)
+            board[j][i] = ' ';
+        
+}
