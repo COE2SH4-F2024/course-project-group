@@ -103,21 +103,21 @@ void Player::movePlayer()
         break;
     }
 
-    if (mainGameMechsRef->(getBoardSizeX() - 1) == x)
+    if ((mainGameMechsRef->getBoardSizeX() - 1) == x)
     {
         x = 0;
     }
-    else if (mainGameMechsRef->(getBoardSizeY() - 1) == y)
+    else if ((mainGameMechsRef->getBoardSizeY() - 1) == y)
     {
         y = 0;
     }
     else if (y == 0)
     {
-        y = getBoardSizeY() - 2;
+        y = mainGameMechsRef->getBoardSizeY() - 2;
     }
     else if (x == 0)
     {
-        x = getBoardSizeX() - 2;
+        x = mainGameMechsRef->getBoardSizeX() - 2;
     }
     playerPos.setObjPos(x, y, sym);
 }
