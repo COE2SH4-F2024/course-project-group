@@ -83,5 +83,6 @@ void CleanUp(void)
     MacUILib_clearScreen();    
 
     MacUILib_uninit();
+    delete mechanics_ptr;
 
 }
