@@ -15,6 +15,38 @@ objPosArrayList::~objPosArrayList()
     delete[] aList;
 }
 
+objPosArrayList::objPosArrayList(const objPosArrayList &other)
+    : listSize(other.listSize), arrayCapacity(other.arrayCapacity)
+{
+    aList = new objPos[arrayCapacity];
+
+    for (int i = 0; i < listSize; ++i)
+    {
+        aList[i] = other.aList[i];
+    }
+}
+
+objPosArrayList &objPosArrayList::operator=(const objPosArrayList &other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    delete[] aList;
+
+    listSize = other.listSize;
+    arrayCapacity = other.arrayCapacity;
+    aList = new objPos[arrayCapacity];
+
+    for (int i = 0; i < listSize; ++i)
+    {
+        aList[i] = other.aList[i];
+    }
+
+    return *this;
+}
+
 int objPosArrayList::getSize() const
 {
     return listSize;
@@ -22,47 +54,77 @@ int objPosArrayList::getSize() const
 
 void objPosArrayList::insertHead(objPos thisPos)
 {
-    if (listSize < arrayCapacity)
+    if (listSize == arrayCapacity)
     {
-        for (int i = listSize; i > 0; i--)
-        {
-            aList[i] = aList[i--];
-        }
-
-        aList[0].symbol = thisPos.symbol;
-        listSize++;
+        resizeArray();
     }
+
+    for (int i = listSize; i > 0; --i)
+    {
+        aList[i] = aList[i - 1];
+    }
+
+    aList[0] = thisPos;
+    listSize++;
 }
 
 void objPosArrayList::insertTail(objPos thisPos)
 {
-    if (listSize < arrayCapacity)
+    if (listSize == arrayCapacity)
     {
-        aList[listSize].symbol = thisPos.symbol;
-        listSize++;
+        resizeArray(); // Resize if the array is full
     }
+
+    aList[listSize] = thisPos;
+    listSize++;
 }
 
 void objPosArrayList::removeHead()
 {
-    for (int i = 0; i < listSize; i++)
+    if (listSize > 0)
     {
-        aList[i].symbol = aList[i].symbol
+        for (int i = 0; i < listSize - 1; ++i)
+        {
+            aList[i] = aList[i + 1];
+        }
+        aList[listSize - 1] = objPos();
+        listSize--;
     }
 }
 
 void objPosArrayList::removeTail()
 {
+    if (listSize > 0)
+    {
+        listSize--;
+    }
 }
 
 objPos objPosArrayList::getHeadElement() const
 {
+    return aList[0];
 }
 
 objPos objPosArrayList::getTailElement() const
 {
+    return aList[listSize - 1];
 }
 
 objPos objPosArrayList::getElement(int index) const
 {
+    return aList[index];
+}
+
+void objPosArrayList::resizeArray()
+{
+    arrayCapacity *= 2;
+    objPos *newArray = new objPos[arrayCapacity];
+
+    for (int i = 0; i < listSize; ++i)
+    {
+        newArray[i] = aList[i];
+    }
+
+    delete[] aList;
+    aList = newArray;
 }
