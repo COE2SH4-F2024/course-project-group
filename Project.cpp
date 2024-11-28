@@ -103,12 +103,8 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-
-
-    
-
     mechanics_ptr->printBoard();
-    mechanics_ptr->clearBoard();      
+    mechanics_ptr->clearBoard();
 }
 
 void LoopDelay(void)

@@ -105,11 +105,11 @@ void Player::movePlayer()
 
     if ((mainGameMechsRef->getBoardSizeX() - 1) == x)
     {
-        x = 0;
+        x = 1;
     }
     else if ((mainGameMechsRef->getBoardSizeY() - 1) == y)
     {
-        y = 0;
+        y = 1;
     }
     else if (y == 0)
     {

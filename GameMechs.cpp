@@ -134,12 +134,31 @@ void GameMechs::displaychar(int x, int y, char sym) {
 
 void GameMechs::printBoard() {
     int i,j;
+    // MacUILib_printf("555");
+    // MacUILib_printf("\n");
+
+    // for(i = 0; i < boardSizeY; i ++)
+    // {
+    //     for(j=0; j < boardSizeX; j++)
+    //     {
+    //         if (j==boardSizeX-1)
+    //         {
+    //             MacUILib_printf("%c\n", board[j][i]);
+    //         }
+    //         else
+    //         {
+    //             MacUILib_printf("%c", board[j][i]);
+    //         }
+    //     }
+    // }
 
     for(i=0; i < boardSizeY; i++) {
         for(j=0; j<boardSizeX; j++) {
             MacUILib_printf("%c",board[j][i]);
         }
         MacUILib_printf("\n");
+        
+        
     } 
 }
 
