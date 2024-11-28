@@ -15,7 +15,7 @@ food::~food()
 
 }
 
-void food::generateFood(objPos blockOff) {
+void food::generateFood(objPosArrayList blockOff) {
     srand(time(NULL));
     int i,j;
     int xRange = mainGameMechsRef->getBoardSizeX();
@@ -28,10 +28,15 @@ void food::generateFood(objPos blockOff) {
         for(j=0; j < yRange; j++)
             pos_bitV[i][j] = 0;
 
-    objPos player = blockOff.getObjPos();
-    int player_x = player.pos->x;
-    int player_y = player.pos->y;
-    pos_bitV[player_x][player_y] = 1;
+    for(i=0; i < blockOff.getSize(); i++) {
+        objPos player = blockOff.getElement(i);
+        int player_x = player.pos->x;
+        int player_y = player.pos->y;
+        pos_bitV[player_x][player_y] = 1;
+
+    }
+    
+    
 
    
     do 

@@ -26,7 +26,7 @@ int main(void)
 {   
     Initialize();
     
-    while(mechanics_ptr->getExitFlagStatus() == false)  
+    while(mechanics_ptr->getExitFlagStatus() == false && mechanics_ptr->getLoseFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -44,10 +44,10 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
     mechanics_ptr = new GameMechs();
-    player = new Player(mechanics_ptr);
     food_ptr = new food(mechanics_ptr);
+    player = new Player(mechanics_ptr, food_ptr);
 
-    objPos playerpos = player->getPlayerPos();
+    objPosArrayList playerpos = *player->getPlayerPos();
     food_ptr->generateFood(playerpos);
 
 
@@ -64,29 +64,36 @@ void GetInput(void)
 void RunLogic(void)
 {
     char input = 'q';
+    int i, pl_x, pl_y;
+    char pl_sym;
+
     input = mechanics_ptr->getInput();
 
-    objPos playerpos = player->getPlayerPos();
-    int pl_x = playerpos.pos->x;
-    int pl_y = playerpos.pos->y;
-    char pl_sym = playerpos.getSymbol();
 
+    objPosArrayList playerpos = *player->getPlayerPos();
+    for(i=0; i < playerpos.getSize(); i++) {
+        pl_x = playerpos.getElement(i).pos->x;
+        pl_y = playerpos.getElement(i).pos->y;
+        pl_sym = playerpos.getElement(i).getSymbol();
+        mechanics_ptr->displaychar(pl_x,pl_y,pl_sym);
+
+    }
 
     switch(input)
-    {                      
-        case ' ':  // exit
-            mechanics_ptr->setExitTrue();
-            break;
-        case 'k':
-            food_ptr->generateFood(playerpos);
+        {                      
+            case ' ':  // exit
+                mechanics_ptr->setExitTrue();
+                break;
+            case 'k':
+                food_ptr->generateFood(playerpos);
 
-        default:
-            player->updatePlayerDir();
-            player->movePlayer();
-            break;
-    }
+            default:
+                player->updatePlayerDir();
+                player->movePlayer();
+                break;
+        }
     //PROCESS INPUT
-    
+
 
     objPos foodPos = food_ptr->getFoodPos();
     int food_x = foodPos.pos->x;
@@ -95,7 +102,6 @@ void RunLogic(void)
     
 
     mechanics_ptr->displaychar(food_x,food_y,food_sym);
-    mechanics_ptr->displaychar(pl_x,pl_y,pl_sym);
     
     mechanics_ptr->clearInput();
 }
@@ -115,7 +121,10 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();    
+    MacUILib_clearScreen();  
+    if(mechanics_ptr->getLoseFlagStatus()) {
+        MacUILib_printf("You Lost");
+    }
 
     MacUILib_uninit();
     delete mechanics_ptr;

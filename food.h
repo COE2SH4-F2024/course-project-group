@@ -13,7 +13,7 @@ class food
         ~food();
         
         objPos getFoodPos() const;
-        void generateFood(objPos blockOff);   
+        void generateFood(objPosArrayList blockOff);   
     private:
         objPos foodPos;
         GameMechs *mainGameMechsRef;
