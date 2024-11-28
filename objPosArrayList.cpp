@@ -3,7 +3,7 @@
 objPosArrayList::objPosArrayList()
 {
     listSize = 0;
-    arrayCapacity = 200;
+    arrayCapacity = 200; //default arraylist capacity
     aList = new objPos[arrayCapacity];
 }
 

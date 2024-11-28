@@ -3,6 +3,9 @@
 
 GameMechs::GameMechs()
 {
+    /* Default constructor that initializes the board to size(30,15)
+    and fills the border with #'s
+    */
     exitFlag = false;
     loseFlag = false;
     score = 0;
@@ -19,6 +22,7 @@ GameMechs::GameMechs()
 
     for(i=0; i < boardSizeX; i++) {
         for(j=0; j<boardSizeY; j++) {
+            //if on the border set corresponding index to #
             if(i == 0 || i == (boardSizeX-1) || j == 0 || j == (boardSizeY-1)) {
                 board[i][j] = '#';
             }
@@ -31,11 +35,22 @@ GameMechs::GameMechs()
 
 GameMechs::GameMechs(int boardX, int boardY)
 {
+    /* Constructor that initializes the board to size given values
+    and fills the border with #'s
+    */
     exitFlag = false;
     loseFlag = false;
     score = 0;
     boardSizeX = boardX;
     boardSizeY = boardY;
+
+    //If the board is too small set to default values
+    if(boardSizeX < 3) {
+        boardSizeX = 30;
+    } 
+    if(boardSizeY < 3) {
+        boardSizeY = 15;
+    }
 
     board = new int*[boardSizeX];
 
@@ -57,7 +72,6 @@ GameMechs::GameMechs(int boardX, int boardY)
     } 
 }
 
-// do you need a destructor?
 GameMechs::~GameMechs()
 {
     int i;
@@ -125,8 +139,8 @@ void GameMechs::clearInput()
     input = 0;
 }
 
-// More methods should be added here
 
+//Sets a part of the board to a given value
 void GameMechs::displaychar(int x, int y, char sym) {
 
     board[x][y] = sym;
@@ -144,6 +158,7 @@ void GameMechs::printBoard() {
     MacUILib_printf("Score: %d",score);
 }
 
+//Resets the board to only spaces while still keeping the borders intact
 void GameMechs::clearBoard() {
     int i,j;
     for(i=1; i < boardSizeY-1; i++) 

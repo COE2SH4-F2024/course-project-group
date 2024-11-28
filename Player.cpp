@@ -7,26 +7,21 @@ Player::Player(GameMechs *thisGMRef, food *thisFoodRef)
 
     myDir = STOP;
     objPos playerPos;
-    //playerPos = objPos(14, 7, '*');
-    playerPos = objPos(4, 2, '*');
+
+    //Starts player in roughly the middle of the board
+    playerPos = objPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*');
+
     playerPosList = new objPosArrayList();
 
-    int i;
-    // for(i=0; i<8; i++) {
-    //     objPos playerPoscopy;
-    //     playerPoscopy = objPos(10+*2*i, 7, '*');
-    //     playerPosList->insertHead(playerPoscopy);
-
-    // }
+    //Inserts player at the front  
     playerPosList->insertHead(playerPos);
 
 
-    // more actions to be included
 }
 
 Player::~Player()
 {
-    // delete any heap members here
+    delete playerPosList;
 }
 
 objPosArrayList* Player::getPlayerPos() const
@@ -99,12 +94,14 @@ void Player::movePlayer()
 
     // PPA3 Finite State Machine logic
     objPos player = playerPosList->getHeadElement();
-    int x = playerPosList->getHeadElement().pos->x;
+    //Get the position and symbol of the head of the player
+    int x = playerPosList->getHeadElement().pos->x; 
     int y = playerPosList->getHeadElement().pos->y;
     char sym = playerPosList->getHeadElement().getSymbol();
 
-    //
+
     int i;
+    //testing collision with other parts of the snake body
     objPos test_col;
     int test_col_x, test_col_y;
 
@@ -112,6 +109,7 @@ void Player::movePlayer()
         test_col_x = playerPosList->getElement(i).pos->x;
         test_col_y = playerPosList->getElement(i).pos->y;
         if(test_col_x == x && test_col_y == y) {
+            //if any part of the snake body collides, lose game
             mainGameMechsRef->setLoseFlag();
         }
     }
@@ -139,6 +137,7 @@ void Player::movePlayer()
         break;
     }
 
+
     if ((mainGameMechsRef->getBoardSizeX() - 1) == x)
     {
         x = 1;
@@ -156,13 +155,18 @@ void Player::movePlayer()
         x = mainGameMechsRef->getBoardSizeX() - 2;
     }
 
+    //new poistion of the head
     objPos moved_player = objPos(x,y,sym);
 
 
     if(x == food_x && y == food_y) {
+        //if the head collids with the food
         playerPosList->insertHead(moved_player);
+        //generate new food
         foodRef->generateFood(*playerPosList);
+        //increment score
         mainGameMechsRef->incrementScore();
+        //DONT remove tail
     
     }
     else {
@@ -174,5 +178,3 @@ void Player::movePlayer()
     
 
 }
-
-// More methods to be added

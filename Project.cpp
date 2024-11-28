@@ -39,12 +39,12 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    mechanics_ptr = new GameMechs();
-    food_ptr = new food(mechanics_ptr);
-    player = new Player(mechanics_ptr, food_ptr);
+    mechanics_ptr = new GameMechs(); //Game Mechanics Pointer
+    food_ptr = new food(mechanics_ptr); //Food pointer
+    player = new Player(mechanics_ptr, food_ptr); //player pointer
 
-    objPosArrayList playerpos = *player->getPlayerPos();
-    food_ptr->generateFood(playerpos);
+    objPosArrayList playerpos = *player->getPlayerPos(); //get array of player locations
+    food_ptr->generateFood(playerpos); 
 }
 
 void GetInput(void)
@@ -57,14 +57,15 @@ void GetInput(void)
 
 void RunLogic(void)
 {
-    char input = 'q';
-    int i, pl_x, pl_y;
-    char pl_sym;
+    char input;
+    int i, pl_x, pl_y; //player coordinates
+    char pl_sym; //player symbol
 
     input = mechanics_ptr->getInput();
 
 
     objPosArrayList playerpos = *player->getPlayerPos();
+    //Display every segment of the "snake"
     for(i=0; i < playerpos.getSize(); i++) {
         pl_x = playerpos.getElement(i).pos->x;
         pl_y = playerpos.getElement(i).pos->y;
@@ -72,32 +73,28 @@ void RunLogic(void)
         mechanics_ptr->displaychar(pl_x,pl_y,pl_sym);
 
     }
-
+    
     switch(input)
         {                      
             case ' ':  // exit
                 mechanics_ptr->setExitTrue();
                 break;
             case 'k':
-                food_ptr->generateFood(playerpos);
-
+                food_ptr->generateFood(*player->getPlayerPos());
             default:
                 player->updatePlayerDir();
                 player->movePlayer();
                 break;
         }
-    //PROCESS INPUT
-
+        mechanics_ptr->clearInput(); //resets input to null
 
     objPos foodPos = food_ptr->getFoodPos();
     int food_x = foodPos.pos->x;
     int food_y = foodPos.pos->y;
     char food_sym = foodPos.getSymbol();
     
-
     mechanics_ptr->displaychar(food_x,food_y,food_sym);
     
-    mechanics_ptr->clearInput();
 }
 
 void DrawScreen(void)
