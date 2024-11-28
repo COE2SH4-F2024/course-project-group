@@ -13,8 +13,6 @@ GameMechs *mechanics_ptr;
 Player *player;
 food *food_ptr;
 
-
-
 void Initialize(void);
 void GetInput(void);
 void RunLogic(void);
@@ -23,7 +21,7 @@ void LoopDelay(void);
 void CleanUp(void);
 
 int main(void)
-{   
+{
     Initialize();
     
     while(mechanics_ptr->getExitFlagStatus() == false && mechanics_ptr->getLoseFlagStatus() == false)  
@@ -35,9 +33,7 @@ int main(void)
     }
 
     CleanUp();
-
 }
-
 
 void Initialize(void)
 {
@@ -49,16 +45,14 @@ void Initialize(void)
 
     objPosArrayList playerpos = *player->getPlayerPos();
     food_ptr->generateFood(playerpos);
-
-
 }
 
 void GetInput(void)
 {
-   if (MacUILib_hasChar()) {
+    if (MacUILib_hasChar())
+    {
         mechanics_ptr->setInput(MacUILib_getChar());
-
-    }   
+    }
 }
 
 void RunLogic(void)
@@ -109,6 +103,7 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
+
     mechanics_ptr->printBoard();
     mechanics_ptr->clearBoard();
 }
@@ -117,7 +112,6 @@ void LoopDelay(void)
 {
     MacUILib_Delay(DELAY_CONST); // 0.1s delay
 }
-
 
 void CleanUp(void)
 {
@@ -130,5 +124,4 @@ void CleanUp(void)
     delete mechanics_ptr;
     delete player;
     delete food_ptr;
-
 }
