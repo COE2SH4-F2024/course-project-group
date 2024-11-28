@@ -7,24 +7,29 @@
 
 class objPosArrayList
 {
-    private:
-        objPos* aList;
-        int listSize;
-        int arrayCapacity;
+private:
+    objPos *aList;
+    int listSize;
+    int arrayCapacity;
 
-    public:
-        objPosArrayList();
-        ~objPosArrayList();
+    void resizeArray();
 
-        int getSize() const;
-        void insertHead(objPos thisPos);
-        void insertTail(objPos thisPos);
-        void removeHead();
-        void removeTail();
-        
-        objPos getHeadElement() const;
-        objPos getTailElement() const;
-        objPos getElement(int index) const;
+public:
+    objPosArrayList();
+    ~objPosArrayList();
+
+    objPosArrayList(const objPosArrayList &other);
+    objPosArrayList &operator=(const objPosArrayList &other);
+
+    int getSize() const;
+    void insertHead(objPos thisPos);
+    void insertTail(objPos thisPos);
+    void removeHead();
+    void removeTail();
+
+    objPos getHeadElement() const;
+    objPos getTailElement() const;
+    objPos getElement(int index) const;
 };
 
 #endif
