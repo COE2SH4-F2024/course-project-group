@@ -87,7 +87,6 @@ void objPosArrayList::removeHead()
         {
             aList[i] = aList[i + 1];
         }
-        aList[listSize - 1] = objPos();
         listSize--;
     }
 }
