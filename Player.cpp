@@ -109,6 +109,7 @@ void Player::movePlayer()
     int test_col_x, test_col_y;
 
     for(i=1; i < playerPosList->getSize(); i++) {
+        
         test_col_x = playerPosList->getElement(i).pos->x;
         test_col_y = playerPosList->getElement(i).pos->y;
         if(test_col_x == x && test_col_y == y) {
@@ -219,10 +220,6 @@ void Player::movePlayer()
         playerPosList->removeTail();
     }
     
-    
-        
-    //Rewrite [0][0] as border when it gets replaced from default objPos
-    mainGameMechsRef->displaychar(0,0,'#');
     
 
 

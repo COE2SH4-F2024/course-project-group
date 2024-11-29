@@ -81,9 +81,11 @@ void RunLogic(void)
     for(i=0; i < playerpos.getSize(); i++) {
         pl_x = playerpos.getElement(i).pos->x;
         pl_y = playerpos.getElement(i).pos->y;
+        //if 
+        if(pl_x != 0 && pl_y != 0) {
         pl_sym = playerpos.getElement(i).getSymbol();
         mechanics_ptr->displaychar(pl_x,pl_y,pl_sym);
-
+        }
     }
     
     switch(input)
