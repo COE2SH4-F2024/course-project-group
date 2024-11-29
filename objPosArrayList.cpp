@@ -52,6 +52,11 @@ int objPosArrayList::getSize() const
     return listSize;
 }
 
+void objPosArrayList::lengthenSnake(int num) {
+    listSize = listSize + num;
+}
+
+
 // inserts objPos object as head of snake
 void objPosArrayList::insertHead(objPos thisPos)
 {
@@ -121,6 +126,19 @@ objPos objPosArrayList::getElement(int index) const
 {
     return aList[index];
 }
+
+void objPosArrayList::removeElement(int index)
+{
+    if (listSize > 0)
+    {
+        for (int i = index; i < listSize - 1; ++i)
+        {
+            aList[i] = aList[i + 1];
+        }
+        listSize--;
+    }
+}
+
 
 // used to resize array if it exceeds 200 elements
 void objPosArrayList::resizeArray()

@@ -87,9 +87,12 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
-    objPos foodPos = foodRef->getFoodPos();
-    int food_x = foodPos.pos->x;
-    int food_y = foodPos.pos->y;
+    // objPos foodPos = foodRef->getFoodPos();
+    int food_x,food_y;
+    int collided = 0;
+    char food_sym;
+
+    int food_num; //random number for food generation
 
 
     // PPA3 Finite State Machine logic
@@ -136,7 +139,7 @@ void Player::movePlayer()
         y--;
         break;
     }
-
+    //Wrap around conditions
 
     if ((mainGameMechsRef->getBoardSizeX() - 1) == x)
     {
@@ -158,23 +161,70 @@ void Player::movePlayer()
     //new poistion of the head
     objPos moved_player = objPos(x,y,sym);
 
+    for(i=0; i < foodRef->getFoodPos()->getSize(); i++) {
+        //x and y values for certain food
+        test_col_x = foodRef->getFoodPos()->getElement(i).pos->x;
+        test_col_y = foodRef->getFoodPos()->getElement(i).pos->y;
+        if(x == test_col_x && y == test_col_y) {
+            collided = 1;
+            //get symbol of certain food
+            food_sym = foodRef->getFoodPos()->getElement(i).getSymbol();
+            
+            //increment score
+            
 
-    if(x == food_x && y == food_y) {
-        //if the head collids with the food
-        playerPosList->insertHead(moved_player);
-        //generate new food
-        foodRef->generateFood(*playerPosList);
-        //increment score
-        mainGameMechsRef->incrementScore();
-        //DONT remove tail
+            if(food_sym == '/') {
+                //add 50 to score but inc length by 10
+                mainGameMechsRef->addToScore(50);
+                playerPosList->lengthenSnake(10);
+            }
+            else if(food_sym == 'm') {
+                //add 10 to score and dont inc length
+                mainGameMechsRef->addToScore(10);
+            }
+            else {
+                //default food
+                mainGameMechsRef->incrementScore();
+                playerPosList->insertHead(moved_player);
+            }
+
+            
+
+            //if the head collides with the food
+            foodRef->getFoodPos()->removeElement(i);
+
+            //generate new food (1-5)incl
+            food_num = (rand() % (5)) + 1;
+            if(food_num == 1) {
+                //1/5 of the time create / food
+                foodRef->generateFood(*playerPosList, '/');
+                
     
+            }
+            else if (food_num == 2) {
+                //1/5 of the time create m food
+                foodRef->generateFood(*playerPosList, 'm');
+            }
+            else {
+                //3/5 of the time create default food
+                foodRef->generateFood(*playerPosList, 'o');   
+            }
+                
+            break; //Cant collide with multiple objects at once, saves computing power
+        }
     }
-    else {
+    if(!collided) {
+        //If no collision takes place treat as normal
         playerPosList->insertHead(moved_player);
         playerPosList->removeTail();
     }
-
-
+    
+    
+        
+    //Rewrite [0][0] as border when it gets replaced from default objPos
+    mainGameMechsRef->displaychar(0,0,'#');
     
 
+
 }
+

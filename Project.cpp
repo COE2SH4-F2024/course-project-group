@@ -44,7 +44,15 @@ void Initialize(void)
     player = new Player(mechanics_ptr, food_ptr); //player pointer
 
     objPosArrayList playerpos = *player->getPlayerPos(); //get array of player locations
-    food_ptr->generateFood(playerpos); 
+    objPosArrayList foodpos = *food_ptr->getFoodPos(); //get array of food locations
+
+
+    food_ptr->generateFood(*player->getPlayerPos(), '/'); 
+    food_ptr->generateFood(*player->getPlayerPos(), 'm'); 
+    food_ptr->generateFood(*player->getPlayerPos(), 'o'); 
+    food_ptr->generateFood(*player->getPlayerPos(), 'o'); 
+    food_ptr->generateFood(*player->getPlayerPos(), 'o'); 
+
 }
 
 void GetInput(void)
@@ -61,11 +69,15 @@ void RunLogic(void)
     int i, pl_x, pl_y; //player coordinates
     char pl_sym; //player symbol
 
+    int food_x, food_y;
+    char food_sym;
+
     input = mechanics_ptr->getInput();
 
 
     objPosArrayList playerpos = *player->getPlayerPos();
-    //Display every segment of the "snake"
+
+    //change every player element on the board
     for(i=0; i < playerpos.getSize(); i++) {
         pl_x = playerpos.getElement(i).pos->x;
         pl_y = playerpos.getElement(i).pos->y;
@@ -79,8 +91,6 @@ void RunLogic(void)
             case ' ':  // exit
                 mechanics_ptr->setExitTrue();
                 break;
-            case 'k':
-                food_ptr->generateFood(*player->getPlayerPos());
             default:
                 player->updatePlayerDir();
                 player->movePlayer();
@@ -88,12 +98,17 @@ void RunLogic(void)
         }
         mechanics_ptr->clearInput(); //resets input to null
 
-    objPos foodPos = food_ptr->getFoodPos();
-    int food_x = foodPos.pos->x;
-    int food_y = foodPos.pos->y;
-    char food_sym = foodPos.getSymbol();
+    objPosArrayList foodpos = *food_ptr->getFoodPos();
     
-    mechanics_ptr->displaychar(food_x,food_y,food_sym);
+    //change every food element on the board
+    for(i=0; i < foodpos.getSize(); i++) {
+        food_x = foodpos.getElement(i).pos->x;
+        food_y = foodpos.getElement(i).pos->y;
+        food_sym = foodpos.getElement(i).getSymbol();
+        mechanics_ptr->displaychar(food_x,food_y,food_sym);
+
+    }
+    
     
 }
 
@@ -102,6 +117,7 @@ void DrawScreen(void)
     MacUILib_clearScreen();
 
     mechanics_ptr->printBoard();
+    //Reset board to be blank besides borders
     mechanics_ptr->clearBoard();
 }
 

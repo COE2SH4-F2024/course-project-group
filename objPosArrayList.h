@@ -22,10 +22,12 @@ public:
     objPosArrayList &operator=(const objPosArrayList &other);
 
     int getSize() const;
+    void lengthenSnake(int num);
     void insertHead(objPos thisPos);
     void insertTail(objPos thisPos);
     void removeHead();
     void removeTail();
+    void removeElement(int index);
 
     objPos getHeadElement() const;
     objPos getTailElement() const;

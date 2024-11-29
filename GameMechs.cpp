@@ -13,6 +13,8 @@ GameMechs::GameMechs()
     boardSizeY = 15;
 
     int i,j;
+
+    //initialize board
     board = new int*[boardSizeX];
 
 	for(int i = 0; i < boardSizeX; i++)
@@ -20,6 +22,7 @@ GameMechs::GameMechs()
 		board[i] = new int[boardSizeY];
 	}
 
+    //Create default board with borders
     for(i=0; i < boardSizeX; i++) {
         for(j=0; j<boardSizeY; j++) {
             //if on the border set corresponding index to #
@@ -51,7 +54,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     if(boardSizeY < 3) {
         boardSizeY = 15;
     }
-
+    //initialize new board
     board = new int*[boardSizeX];
 
 	for(int i = 0; i < boardSizeX; i++)
@@ -59,6 +62,7 @@ GameMechs::GameMechs(int boardX, int boardY)
 		board[i] = new int[boardSizeY];
 	}
 
+    //Create default board with borders
     int i,j;
     for(i=0; i < boardSizeX; i++) {
         for(j=0; j<boardSizeY; j++) {
@@ -106,6 +110,11 @@ int GameMechs::getScore() const
 void GameMechs::incrementScore()
 {
     score++;
+}
+
+void GameMechs::addToScore(int toAdd)
+{
+    score = score + toAdd;
 }
 
 int GameMechs::getBoardSizeX() const

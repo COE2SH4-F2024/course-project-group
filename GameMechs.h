@@ -42,6 +42,7 @@ class GameMechs
         
         int getScore() const;
         void incrementScore();
+        void addToScore(int toAdd);
         
         // More methods should be added here
         void displaychar(int x, int y, char sym);

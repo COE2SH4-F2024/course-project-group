@@ -3,6 +3,7 @@
 
 #include "objPos.h"
 #include "GameMechs.h"
+#include "objPosArrayList.h"
 
 class food
 {
@@ -12,11 +13,12 @@ class food
         food(GameMechs *thisGMRef);
         ~food();
         
-        objPos getFoodPos() const;
-        void generateFood(objPosArrayList blockOff);   
+        objPosArrayList* getFoodPos() const;
+        void generateFood(objPosArrayList blockOff_pl, char foodType);   
     private:
-        objPos foodPos;
+        objPos firstfoodPos;
         GameMechs *mainGameMechsRef;
+        objPosArrayList *foodBucket;
         char foodSym;
 
 
