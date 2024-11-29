@@ -3,11 +3,23 @@
 // Check lecture contents on general purpose array list construction,
 // and modify it to support objPos array list construction.
 
+// objPosArrayList::objPosArrayList()
+// {
+//     listSize = 0;
+//     arrayCapacity = 200;
+//     aList = new objPos[arrayCapacity];
+// }
+
 objPosArrayList::objPosArrayList()
 {
     listSize = 0;
     arrayCapacity = 200;
     aList = new objPos[arrayCapacity];
+
+    for (int i = 0; i < arrayCapacity; ++i)
+    {
+        aList[i] = objPos();
+    }
 }
 
 objPosArrayList::~objPosArrayList()
@@ -111,7 +123,10 @@ objPos objPosArrayList::getTailElement() const
 
 objPos objPosArrayList::getElement(int index) const
 {
-    return aList[index];
+    if (index >= 0 && index < listSize)
+    {
+        return aList[index];
+    }
 }
 
 void objPosArrayList::resizeArray()
